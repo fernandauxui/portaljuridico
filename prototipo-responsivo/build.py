@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Monta prototipo-responsivo/index.html a partir do protótipo mobile (base) + telas desktop.
+"""Monta prototipo-responsivo/index.html e prototipo-mobile/index.html a partir do protótipo mobile original (src/mobile-base.html) + telas desktop.
 Uso: python3 build.py   (rodar dentro de prototipo-responsivo/)"""
 import base64, pathlib, re, sys
 
 HERE = pathlib.Path(__file__).resolve().parent
-MOB = (HERE.parent / 'prototipo-mobile' / 'index.html').read_text(encoding='utf-8')
+MOB = (HERE / 'src' / 'mobile-base.html').read_text(encoding='utf-8')  # protótipo mobile original (base)
 SRC = HERE / 'src'
 
 def cut(text, start, end):
@@ -159,6 +159,9 @@ html = f"""<!doctype html>
 </html>
 """
 (HERE / 'index.html').write_text(html, encoding='utf-8')
+# o link público antigo (prototipo-mobile/) passa a servir a versão responsiva
+(HERE.parent / 'prototipo-mobile').mkdir(exist_ok=True)
+(HERE.parent / 'prototipo-mobile' / 'index.html').write_text(html, encoding='utf-8')
 print('ok', len(html)//1024, 'KB')
 
 # ---------- versão para artefato (o host fornece doctype/head/body) ----------
